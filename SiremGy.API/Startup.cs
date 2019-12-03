@@ -27,7 +27,7 @@ namespace SiremGy.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddDbContext<DataContext>(optBuilder => optBuilder.UseSqlite(Configuration.GetConnectionString("DefaultConnectionString")));
+            services.AddDbContext<DataContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
