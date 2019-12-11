@@ -1,28 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SiremGy.API.Data;
 
 namespace SiremGy.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class ValuesController : ControllerBase, IDisposable
     {
-        // GET: api/Values
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly DataContext _dataContext;
+        private readonly CancellationTokenSource _cancelSource;
+
+        public ValuesController(DataContext dataContext)
         {
-            return new string[] { "value1", "value2" };
+            _dataContext = dataContext;
+            _cancelSource = new CancellationTokenSource();
         }
 
-        // GET: api/Values/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        // GET: api/Values
+        [HttpGet]
+        public async Task<IActionResult> GetValues()
         {
-            return "value " + id + " asd";
+            var result = await _dataContext.Values.ToListAsync(_cancelSource.Token);
+            return Ok(result);
+        }
+
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetValue(int id)
+        {
+            var result = await _dataContext.Values.FirstOrDefaultAsync(x => x.Id == id, _cancelSource.Token);
+            return Ok(result);
         }
 
         // POST: api/Values
@@ -41,6 +55,11 @@ namespace SiremGy.API.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+        public void Dispose()
+        {
+            _cancelSource.Dispose();
         }
     }
 }

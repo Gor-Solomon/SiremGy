@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SiremGy.Models.Values
 {
-    public class Value : ModelBase
+    public class ValueModel : ModelBase
     {
         public string Name { get; set; }
     }

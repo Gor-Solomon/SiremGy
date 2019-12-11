@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SiremGy.API;
+using SiremGy.API.Data;
 
 namespace SiremGy.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20191129130330_InitialMigration")]
+    [Migration("20191210112442_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -17,7 +17,7 @@ namespace SiremGy.API.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.0.0");
 
-            modelBuilder.Entity("SiremGy.API.Value", b =>
+            modelBuilder.Entity("SiremGy.Models.Values.ValueModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -28,7 +28,7 @@ namespace SiremGy.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("values");
+                    b.ToTable("Values");
                 });
 #pragma warning restore 612, 618
         }
