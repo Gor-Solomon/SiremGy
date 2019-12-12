@@ -22,6 +22,7 @@ namespace SiremGy.API
         {
             services.AddControllers();
             services.AddDbContext<DataContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnectionString")));
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,12 +35,16 @@ namespace SiremGy.API
             
             app.UseRouting();
 
+            app.UseCors(p => p.AllowAnyOrigin().AllowAnyMethod());
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+
         }
     }
 }
