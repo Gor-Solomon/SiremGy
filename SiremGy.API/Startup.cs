@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SiremGy.API.Data;
+using Newtonsoft.Json;
+using SiremGy.Common;
 
 namespace SiremGy.API
 {
@@ -20,9 +21,14 @@ namespace SiremGy.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            DependenciesResolver dependenciesResolver = new DependenciesResolver();
+
             services.AddControllers();
-            services.AddDbContext<DataContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnectionString")));
+            dependenciesResolver.ConfigureDbContext(services);
+            dependenciesResolver.RegisterServices(services);
             services.AddCors();
+
+            //services.AddMvc().AddNewtonsoftJson(options => { options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,8 +49,6 @@ namespace SiremGy.API
             {
                 endpoints.MapControllers();
             });
-
-
         }
     }
 }

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SiremGy.BLL.Interfaces\SiremGy.BLL.Interfaces.csproj" />
+    <ProjectReference Include="..\SiremGy.DAL\SiremGy.DAL.csproj" />
+    <ProjectReference Include="..\SiremGy.Models\SiremGy.Models.csproj" />
+  </ItemGroup>
+
+</Project>
