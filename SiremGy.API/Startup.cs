@@ -14,18 +14,18 @@ namespace SiremGy.API
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            DependenciesResolver = new DependenciesResolver(configuration);
         }
 
         public IConfiguration Configuration { get; }
+        public DependenciesResolver DependenciesResolver { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            DependenciesResolver dependenciesResolver = new DependenciesResolver();
-
             services.AddControllers();
-            dependenciesResolver.ConfigureDbContext(services);
-            dependenciesResolver.RegisterServices(services);
+            DependenciesResolver.ConfigureDbContext(services);
+            DependenciesResolver.RegisterServices(services);
             services.AddCors();
 
             //services.AddMvc().AddNewtonsoftJson(options => { options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; });

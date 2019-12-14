@@ -9,10 +9,13 @@ namespace SiremGy.Common
 {
     public class DependenciesResolver
     {
-        private readonly string _ConnectionString = "Data Source=SiremGy.db";
+        private readonly IConfiguration _configuration;
+        private readonly string _ConnectionString;
 
-        public DependenciesResolver()
+        public DependenciesResolver(IConfiguration configuration)
         {
+            _configuration = configuration;
+            _ConnectionString = configuration.GetConnectionString("DatabaseConnection");
         }
         public void ConfigureDbContext(IServiceCollection services)
         {
@@ -23,12 +26,5 @@ namespace SiremGy.Common
         {
             services.AddTransient<IUsersService, UserService>();
         }
-
-       // PUBLIC DBCONTEXTOPTIONSBUILDER<SIREMGYDBCONTEXT> GETDBCONTEXTOPTIONSBUILDER()
-       //{
-       //     VAR BUILDER = NEW DBCONTEXTOPTIONSBUILDER<SIREMGYDBCONTEXT>();
-       //     BUILDER.USESQLITE(_CONNECTIONSTRING);
-       //     RETURN NEW SIREMGYDBCONTEXT(BUILDER.OPTIONS);
-       // }
     }
 }

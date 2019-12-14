@@ -1,4 +1,5 @@
-﻿using SiremGy.Models.Users;
+﻿using Microsoft.EntityFrameworkCore;
+using SiremGy.Models.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,6 @@ namespace SiremGy.DAL.DataAccess
     {
         public static void Initialize(SiremGyDbContext context)
         {
-            context.Database.EnsureCreated();
-
             if (!context.Users.Any())
             {
                 var users = new List<UserModel>()
@@ -22,7 +21,6 @@ namespace SiremGy.DAL.DataAccess
                 context.Users.AddRange(users);
                 context.SaveChanges();
             }
-
         }
     }
 }

@@ -20,14 +20,4 @@ namespace SiremGy.DAL.DataAccess
         public DbSet<ValueModel> Values { get; set; }
         public DbSet<UserModel> Users { get; set; }
     }
-
-    public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<SiremGyDbContext>
-    {
-        public SiremGyDbContext CreateDbContext(string[] args)
-        {
-            var builder = new DbContextOptionsBuilder<SiremGyDbContext>();
-            builder.UseSqlite("Data Source=SiremGy.db");
-            return new SiremGyDbContext(builder.Options);
-        }
-    }
 }
