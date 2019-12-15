@@ -7,21 +7,29 @@ using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using SiremGy.BLL.Interfaces.Users;
+using SiremGy.DAL.EF;
+using SiremGy.DAL.DataAccess.Authentication;
+using SiremGy.DAL.Interfaces.Authentication;
 
 namespace SiremGy.BLL.Useres
 {
     public class UserService : IUsersService
     {
-        private readonly SiremGyDbContext _siremGyDbContext;
+        private readonly IAuthenticationRepository _authenticationRepository;
 
-        public UserService(SiremGyDbContext siremGyDbContext)
+        public UserService(IAuthenticationRepository authenticationRepository)
         {
-            this._siremGyDbContext = siremGyDbContext;
+            this._authenticationRepository = authenticationRepository;
         }
 
         public async Task<List<UserModel>> GetUserModelsAsync()
         {
-            return await _siremGyDbContext.Users.ToListAsync();
+            throw new NotImplementedException();
+        }
+
+        public async void Test()
+        {
+            await _authenticationRepository.RegisterUser(new UserModel() { CreationDate = DateTime.Now, Email = "adwawdawd", Id = 3, UserName = "panos" }, new System.Security.SecureString());
         }
     }
 }

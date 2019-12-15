@@ -9,5 +9,6 @@ namespace SiremGy.BLL.Interfaces.Users
     public interface IUsersService
     {
         Task<List<UserModel>> GetUserModelsAsync();
+        void Test();
     }
 }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace SiremGy.DAL.DataAccess
+namespace SiremGy.DAL.EF
 {
     public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<SiremGyDbContext>
     {

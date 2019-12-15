@@ -25,6 +25,8 @@ namespace SiremGy.API
         {
             services.AddControllers();
             DependenciesResolver.ConfigureDbContext(services);
+            DependenciesResolver.ConfigureAutoMapping(services);
+            DependenciesResolver.RegisterRepositories(services);
             DependenciesResolver.RegisterServices(services);
             services.AddCors();
 

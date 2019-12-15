@@ -23,6 +23,7 @@ namespace SiremGy.API.Controllers
         [HttpGet]
         public async Task<IEnumerable<UserModel>> Get()
         {
+            _usersService.Test();
             return await _usersService.GetUserModelsAsync();
         }
 
