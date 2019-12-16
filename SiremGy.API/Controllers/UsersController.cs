@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SiremGy.BLL.Interfaces.Common;
 using SiremGy.BLL.Interfaces.Users;
 using SiremGy.Models.Users;
 
@@ -23,8 +24,7 @@ namespace SiremGy.API.Controllers
         [HttpGet]
         public async Task<IEnumerable<UserModel>> Get()
         {
-            _usersService.Test();
-            return await _usersService.GetUserModelsAsync();
+            throw new NotImplementedException();
         }
 
         // GET: api/Users/5
@@ -32,6 +32,13 @@ namespace SiremGy.API.Controllers
         public string Get(int id)
         {
             return "value";
+        }
+
+        [HttpPost("PostRegisterUser")]
+        public async Task<BlResult<UserModel>> PostRegisterUser([FromBody] UserModel userModel)
+        {
+            var result = await _usersService.RegisterUser(userModel);
+            return result;
         }
 
         // POST: api/Users

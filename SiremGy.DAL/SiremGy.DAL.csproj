@@ -5,7 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper.Collection" Version="5.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.0.0">
       <PrivateAssets>all</PrivateAssets>
@@ -20,7 +23,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SiremGy.DAL.Interfaces\SiremGy.DAL.Interfaces.csproj" />
-    <ProjectReference Include="..\SiremGy.Models\SiremGy.Models.csproj" />
   </ItemGroup>
 
 </Project>

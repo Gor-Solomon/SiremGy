@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using SiremGy.DAL.Entities.Users;
-using SiremGy.Models.Users;
-using SiremGy.Models.Values;
 using System;
 using System.Collections.Generic;
 using System.IO;

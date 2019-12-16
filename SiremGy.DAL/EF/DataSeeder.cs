@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SiremGy.DAL.Entities.Users;
-using SiremGy.Models.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;

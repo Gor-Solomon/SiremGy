@@ -1,4 +1,4 @@
-﻿using SiremGy.Models.Users;
+﻿using SiremGy.DAL.Entities.Users;
 using System;
 using System.Collections.Generic;
 using System.Security;
@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace SiremGy.DAL.Interfaces.Authentication
 {
-    public interface IAuthenticationRepository
+    public interface IAuthenticationRepository : IBaseRepository<UserEntity>
     {
-        Task<UserModel> RegisterUser(UserModel userModel, SecureString password);
-        Task<UserModel> Login(UserModel userModel);
-        Task<bool> UserExists(UserModel userModel);
+     
     }
 }

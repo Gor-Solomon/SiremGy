@@ -1,35 +1,85 @@
-﻿using SiremGy.DAL.DataAccess;
-using SiremGy.Models.Users;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using SiremGy.BLL.Interfaces.Users;
-using SiremGy.DAL.EF;
-using SiremGy.DAL.DataAccess.Authentication;
+﻿using SiremGy.BLL.Interfaces.Users;
 using SiremGy.DAL.Interfaces.Authentication;
+using AutoMapper;
+using System.Threading.Tasks;
+using SiremGy.Models.Users;
+using System.Security;
+using SiremGy.BLL.Interfaces;
+using SiremGy.DAL.Entities.Users;
+using System;
+using System.Text;
+using SiremGy.BLL.Interfaces.Common;
+using SiremGy.BLL.Common;
 
 namespace SiremGy.BLL.Useres
 {
-    public class UserService : IUsersService
+    public class UserService : BaseService<IAuthenticationRepository>, IUsersService
     {
-        private readonly IAuthenticationRepository _authenticationRepository;
 
-        public UserService(IAuthenticationRepository authenticationRepository)
+        public UserService(IAuthenticationRepository authenticationRepository, IMapper mapper) : base(authenticationRepository, mapper)
         {
-            this._authenticationRepository = authenticationRepository;
         }
 
-        public async Task<List<UserModel>> GetUserModelsAsync()
+        public Task<BlResult<UserModel>> Login(UserModel UserModel)
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
 
-        public async void Test()
+        public async Task<BlResult<UserModel>> RegisterUser(UserModel UserModel)
         {
-            await _authenticationRepository.RegisterUser(new UserModel() { CreationDate = DateTime.Now, Email = "adwawdawd", Id = 3, UserName = "panos" }, new System.Security.SecureString());
+            byte[] passwordHash, PasswordSalt;
+            var result = new BlResult<UserModel>();
+
+            try
+            {
+                UserModel.CreationDate = DateTime.Now;
+                passwordHash = createPasswordHash(UserModel.CreationDate, UserModel.Password, out PasswordSalt);
+
+                var entity = _mapper.Map<UserEntity>(UserModel);
+                entity.PasswordHash = passwordHash;
+                entity.PasswordSalt = PasswordSalt;
+
+                await _repository.AddAsync(entity);
+                await _repository.SaveChangesAsync();
+
+                Array.Clear(entity.PasswordHash, 0, entity.PasswordHash.Length);
+                Array.Clear(entity.PasswordSalt, 0, entity.PasswordSalt.Length);
+
+                result.Success(_mapper.Map<UserModel>(entity));
+            }
+            catch (Exception ex)
+            {
+                result.Fail(Constants.Errors.GenericError);
+            }
+
+            return result;
+        }
+
+        private byte[] createPasswordHash(DateTime dateTime, string password, out byte[] passwordSalt)
+        {
+            byte[] result = null;
+            byte[] dateArray = BitConverter.GetBytes(dateTime.Ticks);
+            byte[] passwordArray = Encoding.UTF8.GetBytes(password);
+            byte[] input = new byte[dateArray.Length + passwordArray.Length];
+
+            dateArray.CopyTo(input, 0);
+            passwordArray.CopyTo(input, dateArray.Length);
+
+            using (var hmac = new System.Security.Cryptography.HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                result = hmac.ComputeHash(input);
+                Array.Clear(input,0,input.Length);
+                Array.Clear(passwordArray, 0, passwordArray.Length);
+                GC.Collect();
+            }
+
+            return result;
+        }
+
+        public Task<BlResult<bool>> UserExists(UserModel UserModel)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

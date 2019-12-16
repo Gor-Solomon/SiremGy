@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SiremGy.DAL.Entities;
 using SiremGy.DAL.Interfaces;
 using System;
@@ -11,24 +10,23 @@ using System.Threading.Tasks;
 
 namespace SiremGy.DAL.DataAccess
 {
-    public abstract class BaseRepository<TEntity, TDbContext> : IBaseRepository<TEntity> 
+    public abstract class BaseRepository<TEntity, TDbContext> : IBaseRepository<TEntity>
         where TEntity : class, IEntity
         where TDbContext : DbContext
     {
         protected readonly TDbContext _dbContext;
-        protected readonly IMapper _mapper;
+        private bool _disposed = false;
 
-        public BaseRepository(TDbContext dbContext, IMapper mapper)
+        public BaseRepository(TDbContext dbContext)
         {
-             _dbContext = dbContext;
-             _mapper = mapper;
+            _dbContext = dbContext;
         }
-        public virtual TEntity Add(TEntity entity)
+        public virtual async Task<TEntity> AddAsync(TEntity entity)
         {
             if (entity == null)
                 throw new ArgumentException(nameof(entity));
 
-            var result = _dbContext.Set<TEntity>().Add(entity);
+            var result = await _dbContext.Set<TEntity>().AddAsync(entity);
 
             return result.Entity;
         }
@@ -126,27 +124,37 @@ namespace SiremGy.DAL.DataAccess
             return _dbContext.Set<TEntity>().AllAsync(predicate);
         }
 
-        [Obsolete("Do not use this, this can explain Narek", true)]
-        public void RefreshAll()
-        {
-            foreach (var entity in _dbContext.ChangeTracker.Entries())
-            {
-                if (entity.State == EntityState.Added) continue;
-                entity.Reload();
-            }
-        }
-
         public void Dispose()
         {
-            _dbContext?.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                _dbContext?.Dispose();
+                _disposed = true;
+            }
         }
 
         public async ValueTask DisposeAsync()
         {
-            if (_dbContext != null)
+            if (!_disposed && _dbContext != null)
             {
                 await _dbContext.DisposeAsync();
             }
+        }
+
+        public async Task SaveChangesAsync()
+        {
+           await _dbContext.SaveChangesAsync();
+        }
+
+        ~BaseRepository()
+        {
+            Dispose(false);
         }
     }
 }
