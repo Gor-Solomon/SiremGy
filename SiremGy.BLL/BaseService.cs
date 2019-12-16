@@ -21,6 +21,15 @@ namespace SiremGy.BLL
             this._mapper = mapper;
         }
 
+        protected Exception CreateException(params string[] args)
+        {
+            var builder = new StringBuilder();
+            foreach (var arg in args)
+                builder.Append($"{arg}{Environment.NewLine}");
+
+            return new Exception(builder.ToString());
+        }
+
         public void Dispose()
         {
             Dispose(true);
@@ -35,15 +44,15 @@ namespace SiremGy.BLL
                 _disposed = true;
             }
         }
+     
+        public ValueTask DisposeAsync()
+        {
+            return _repository.DisposeAsync();
+        }
 
         ~BaseService()
         {
             Dispose(false);
-        }
-
-        public ValueTask DisposeAsync()
-        {
-            return _repository.DisposeAsync();
         }
     }
 }

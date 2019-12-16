@@ -32,6 +32,11 @@ namespace SiremGy.BLL.Useres
 
             try
             {
+                if (UserModel is null)
+                {
+                    throw CreateException(Constants.Errors.ArgumentNull);
+                }
+
                 UserModel.CreationDate = DateTime.Now;
                 passwordHash = createPasswordHash(UserModel.CreationDate, UserModel.Password, out PasswordSalt);
 
@@ -46,6 +51,10 @@ namespace SiremGy.BLL.Useres
                 Array.Clear(entity.PasswordSalt, 0, entity.PasswordSalt.Length);
 
                 result.Success(_mapper.Map<UserModel>(entity));
+            }
+            catch(CustomException ex)
+            {
+                result.Fail(ex.Message);
             }
             catch (Exception ex)
             {
