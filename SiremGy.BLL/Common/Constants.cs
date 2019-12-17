@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SiremGy.BLL.Common
+namespace SiremGy.BLL.Exceptions
 {
     internal class Constants
     {
@@ -10,6 +10,7 @@ namespace SiremGy.BLL.Common
         {
             public const string GenericError = "Error Occurred, please try again later...";
             public const string ArgumentNull = "The passed object is null.";
+            public const string EmailAlreadyExists = "Email already in use.";
         }
     }
 }

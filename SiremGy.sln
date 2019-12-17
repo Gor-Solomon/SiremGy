@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.29509.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SiremGy.API", "SiremGy.API\SiremGy.API.csproj", "{C6848BA6-3C37-4A07-A4E9-A10FFF334233}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BCBD491E-CCD8-439A-9327-094034E29858} = {BCBD491E-CCD8-439A-9327-094034E29858}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SiremGy.Models", "SiremGy.Models\SiremGy.Models.csproj", "{B4988940-FA98-4EFC-876B-1C0762C67F03}"
 EndProject

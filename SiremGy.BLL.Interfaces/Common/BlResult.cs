@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 
 namespace SiremGy.BLL.Interfaces.Common
@@ -7,29 +8,20 @@ namespace SiremGy.BLL.Interfaces.Common
     public class BlResult
     {
         public bool Succeed { get; protected set; }
+        public string Message { get; protected set; }
         public string ErrorMessage { get; protected set; }
-        public Exception Exception { get; protected set; }
+        
 
-        public void Success()
+        public void Success(string message = null)
         {
             Succeed = true;
+            Message = message;
         }
 
         public BlResult Fail(string errorMessage)
         {
-            return Fail(errorMessage, null);
-        }
-
-        public BlResult Fail(Exception exception)
-        {
-            return Fail(exception?.Message, exception);
-        }
-
-        public BlResult Fail(string errorMessage, Exception exception)
-        {
             Succeed = false;
             ErrorMessage = errorMessage;
-            Exception = exception;
 
             return this;
         }
@@ -39,9 +31,10 @@ namespace SiremGy.BLL.Interfaces.Common
     {
         public T Value { get; protected set; }
 
-        public BlResult<T> Success(T value)
+        public BlResult<T> Success(T value, string message = null)
         {
             Succeed = true;
+            Message = message;
             Value = value;
 
             return this;

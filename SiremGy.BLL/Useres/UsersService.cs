@@ -9,7 +9,10 @@ using SiremGy.DAL.Entities.Users;
 using System;
 using System.Text;
 using SiremGy.BLL.Interfaces.Common;
-using SiremGy.BLL.Common;
+using SiremGy.BLL.Exceptions;
+using System.Net;
+using System.Threading;
+using SiremGy.BLL.Interfaces.Exceptions;
 
 namespace SiremGy.BLL.Useres
 {
@@ -20,9 +23,49 @@ namespace SiremGy.BLL.Useres
         {
         }
 
-        public Task<BlResult<UserModel>> Login(UserModel UserModel)
+        public async Task<BlResult<UserModel>> Login(UserModel UserModel)
         {
-            throw new System.NotImplementedException();
+            var result = new BlResult<UserModel>();
+
+            if (UserModel is null)
+            {
+                throw new ArgumentNullException(nameof(UserModel));
+            }
+
+            var entity = await _repository.FirstOrDefaultAsync(x => x.Email == UserModel.Email.ToLower(Thread.CurrentThread.CurrentCulture));
+
+            if (entity is null)
+            {
+                throw new InvalidEmailOrPasswordException();
+            }
+
+            VerifyPasswordHash(UserModel.Password, entity.PasswordHash, entity.PasswordSalt, entity.CreationDate);
+            result.Success(_mapper.Map<UserModel>(entity));
+
+            return result;
+        }
+
+        private void VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt, DateTime creationDate)
+        {
+            byte[] dateArray = BitConverter.GetBytes(creationDate.Ticks);
+            byte[] passwordArray = Encoding.UTF8.GetBytes(password);
+            byte[] input = new byte[dateArray.Length + passwordArray.Length];
+
+            dateArray.CopyTo(input, 0);
+            passwordArray.CopyTo(input, dateArray.Length);
+
+            using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
+            {
+                var generatedHash = hmac.ComputeHash(input);
+
+                for (int i = 0; i < generatedHash.Length; i++)
+                {
+                    if (generatedHash[i] != passwordHash[i])
+                    {
+                        throw new InvalidEmailOrPasswordException();
+                    }
+                }
+            }
         }
 
         public async Task<BlResult<UserModel>> RegisterUser(UserModel UserModel)
@@ -30,36 +73,34 @@ namespace SiremGy.BLL.Useres
             byte[] passwordHash, PasswordSalt;
             var result = new BlResult<UserModel>();
 
-            try
+            if (UserModel is null)
             {
-                if (UserModel is null)
-                {
-                    throw CreateException(Constants.Errors.ArgumentNull);
-                }
-
-                UserModel.CreationDate = DateTime.Now;
-                passwordHash = createPasswordHash(UserModel.CreationDate, UserModel.Password, out PasswordSalt);
-
-                var entity = _mapper.Map<UserEntity>(UserModel);
-                entity.PasswordHash = passwordHash;
-                entity.PasswordSalt = PasswordSalt;
-
-                await _repository.AddAsync(entity);
-                await _repository.SaveChangesAsync();
-
-                Array.Clear(entity.PasswordHash, 0, entity.PasswordHash.Length);
-                Array.Clear(entity.PasswordSalt, 0, entity.PasswordSalt.Length);
-
-                result.Success(_mapper.Map<UserModel>(entity));
+                throw new ArgumentNullException(nameof(UserModel));
             }
-            catch(CustomException ex)
+
+            var emailExists = await UserExists(UserModel);
+
+            if (emailExists.Value)
             {
-                result.Fail(ex.Message);
+                string message = createExceptionMessage("Sorry, Email '{0}' is already in use.", UserModel.Email);
+                throw new UniqueConstraintException(message);
             }
-            catch (Exception ex)
-            {
-                result.Fail(Constants.Errors.GenericError);
-            }
+
+            UserModel.CreationDate = DateTime.Now;
+            passwordHash = createPasswordHash(UserModel.CreationDate, UserModel.Password, out PasswordSalt);
+
+            var entity = _mapper.Map<UserEntity>(UserModel);
+            entity.PasswordHash = passwordHash;
+            entity.PasswordSalt = PasswordSalt;
+            entity.Email = entity.Email.ToLower(Thread.CurrentThread.CurrentCulture);
+
+            await _repository.AddAsync(entity);
+            await _repository.SaveChangesAsync();
+
+            Array.Clear(entity.PasswordHash, 0, entity.PasswordHash.Length);
+            Array.Clear(entity.PasswordSalt, 0, entity.PasswordSalt.Length);
+
+            result.Success(_mapper.Map<UserModel>(entity));
 
             return result;
         }
@@ -78,7 +119,7 @@ namespace SiremGy.BLL.Useres
             {
                 passwordSalt = hmac.Key;
                 result = hmac.ComputeHash(input);
-                Array.Clear(input,0,input.Length);
+                Array.Clear(input, 0, input.Length);
                 Array.Clear(passwordArray, 0, passwordArray.Length);
                 GC.Collect();
             }
@@ -86,9 +127,19 @@ namespace SiremGy.BLL.Useres
             return result;
         }
 
-        public Task<BlResult<bool>> UserExists(UserModel UserModel)
+        public async Task<BlResult<bool>> UserExists(UserModel UserModel)
         {
-            throw new System.NotImplementedException();
+            var result = new BlResult<bool>();
+
+            if (UserModel is null)
+            {
+                throw new ArgumentNullException(nameof(UserModel));
+            }
+
+            var exists = await _repository.AnyAsync(x => x.Email == UserModel.Email.ToLower(Thread.CurrentThread.CurrentCulture));
+            result.Success(exists);
+
+            return result;
         }
     }
 }

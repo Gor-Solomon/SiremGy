@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SiremGy.BLL.Interfaces\SiremGy.BLL.Interfaces.csproj" />
     <ProjectReference Include="..\SiremGy.Common\SiremGy.Common.csproj" />
   </ItemGroup>
 

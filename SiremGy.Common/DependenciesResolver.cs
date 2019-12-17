@@ -33,7 +33,7 @@ namespace SiremGy.Common
 
         public void RegisterRepositories(IServiceCollection services)
         {
-            services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
+            services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
         }
 
         public void ConfigureAutoMapping(IServiceCollection services)

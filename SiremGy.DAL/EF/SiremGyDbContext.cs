@@ -16,6 +16,12 @@ namespace SiremGy.DAL.EF
            // DataSeeder.Initialize(this);
         }
 
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    base.OnModelCreating(modelBuilder);
+        //    modelBuilder.Entity<UserEntity>().HasIndex(i => i.Email).IsUnique();
+        //}
+
         public DbSet<UserEntity> Users { get; set; }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
+using SiremGy.BLL.Exceptions;
 using SiremGy.BLL.Interfaces;
-using SiremGy.DAL.Entities;
-using SiremGy.DAL.Interfaces;
+using SiremGy.BLL.Interfaces.Common;
 using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace SiremGy.BLL
 {
@@ -21,13 +21,13 @@ namespace SiremGy.BLL
             this._mapper = mapper;
         }
 
-        protected Exception CreateException(params string[] args)
+        protected string createExceptionMessage (params string[] args)
         {
             var builder = new StringBuilder();
             foreach (var arg in args)
                 builder.Append($"{arg}{Environment.NewLine}");
 
-            return new Exception(builder.ToString());
+            return builder.ToString();
         }
 
         public void Dispose()
