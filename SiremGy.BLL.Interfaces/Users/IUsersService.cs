@@ -6,7 +6,7 @@ using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SiremGy.BLL.Interfaces.Users
+namespace SiremGy.BLL.Interfaces.Token
 {
     public interface IUsersService : IBaseService
     {

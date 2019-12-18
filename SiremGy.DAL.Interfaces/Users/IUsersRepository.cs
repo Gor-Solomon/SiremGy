@@ -5,9 +5,9 @@ using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SiremGy.DAL.Interfaces.Authentication
+namespace SiremGy.DAL.Interfaces.Users
 {
-    public interface IAuthenticationRepository : IBaseRepository<UserEntity>
+    public interface IUsersRepository : IBaseRepository<UserEntity>
     {
      
     }

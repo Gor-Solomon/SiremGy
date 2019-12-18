@@ -1,14 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SiremGy.BLL.Interfaces.Users;
+using SiremGy.BLL.Interfaces.Token;
 using SiremGy.BLL.Useres;
 using SiremGy.DAL.EF;
 using AutoMapper;
 using System;
 using SiremGy.Common.AutoMapper.Users;
-using SiremGy.DAL.Interfaces.Authentication;
-using SiremGy.DAL.DataAccess.Authentication;
+using SiremGy.DAL.Interfaces.Users;
+using SiremGy.DAL.DataAccess.Users;
+using SiremGy.BLL.Tokens;
 
 namespace SiremGy.Common
 {
@@ -28,12 +29,13 @@ namespace SiremGy.Common
 
         public void RegisterServices(IServiceCollection services)
         {
-            services.AddTransient<IUsersService, UserService>();
+            services.AddScoped<IUsersService, UserService>();
+            services.AddScoped<ITokenService, TokenService>();
         }
 
         public void RegisterRepositories(IServiceCollection services)
         {
-            services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
         }
 
         public void ConfigureAutoMapping(IServiceCollection services)

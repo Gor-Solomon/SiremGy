@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SiremGy.BLL.Interfaces
 {
-    public interface IBaseService : IDisposable, IAsyncDisposable
+    public interface IBaseService 
     {
     }
 }

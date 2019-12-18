@@ -1,5 +1,5 @@
-﻿using SiremGy.BLL.Interfaces.Users;
-using SiremGy.DAL.Interfaces.Authentication;
+﻿using SiremGy.BLL.Interfaces.Token;
+using SiremGy.DAL.Interfaces.Users;
 using AutoMapper;
 using System.Threading.Tasks;
 using SiremGy.Models.Users;
@@ -16,11 +16,15 @@ using SiremGy.BLL.Interfaces.Exceptions;
 
 namespace SiremGy.BLL.Useres
 {
-    public class UserService : BaseService<IAuthenticationRepository>, IUsersService
+    public class UserService : BaseService, IUsersService
     {
+        private readonly IUsersRepository _authenticationRepository;
+        private readonly IMapper _mapper;
 
-        public UserService(IAuthenticationRepository authenticationRepository, IMapper mapper) : base(authenticationRepository, mapper)
+        public UserService(IUsersRepository authenticationRepository, IMapper mapper)
         {
+            _authenticationRepository = authenticationRepository;
+            _mapper = mapper;
         }
 
         public async Task<BlResult<UserModel>> Login(UserModel UserModel)
@@ -32,20 +36,20 @@ namespace SiremGy.BLL.Useres
                 throw new ArgumentNullException(nameof(UserModel));
             }
 
-            var entity = await _repository.FirstOrDefaultAsync(x => x.Email == UserModel.Email.ToLower(Thread.CurrentThread.CurrentCulture));
+            var entity = await _authenticationRepository.FirstOrDefaultAsync(x => x.Email == UserModel.Email.ToLower(Thread.CurrentThread.CurrentCulture));
 
             if (entity is null)
             {
                 throw new InvalidEmailOrPasswordException();
             }
 
-            VerifyPasswordHash(UserModel.Password, entity.PasswordHash, entity.PasswordSalt, entity.CreationDate);
+            verifyPasswordHash(UserModel.Password, entity.PasswordHash, entity.PasswordSalt, entity.CreationDate);
             result.Success(_mapper.Map<UserModel>(entity));
 
             return result;
         }
 
-        private void VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt, DateTime creationDate)
+        private void verifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt, DateTime creationDate)
         {
             byte[] dateArray = BitConverter.GetBytes(creationDate.Ticks);
             byte[] passwordArray = Encoding.UTF8.GetBytes(password);
@@ -94,8 +98,8 @@ namespace SiremGy.BLL.Useres
             entity.PasswordSalt = PasswordSalt;
             entity.Email = entity.Email.ToLower(Thread.CurrentThread.CurrentCulture);
 
-            await _repository.AddAsync(entity);
-            await _repository.SaveChangesAsync();
+            await _authenticationRepository.AddAsync(entity);
+            await _authenticationRepository.SaveChangesAsync();
 
             Array.Clear(entity.PasswordHash, 0, entity.PasswordHash.Length);
             Array.Clear(entity.PasswordSalt, 0, entity.PasswordSalt.Length);
@@ -136,7 +140,7 @@ namespace SiremGy.BLL.Useres
                 throw new ArgumentNullException(nameof(UserModel));
             }
 
-            var exists = await _repository.AnyAsync(x => x.Email == UserModel.Email.ToLower(Thread.CurrentThread.CurrentCulture));
+            var exists = await _authenticationRepository.AnyAsync(x => x.Email == UserModel.Email.ToLower(Thread.CurrentThread.CurrentCulture));
             result.Success(exists);
 
             return result;

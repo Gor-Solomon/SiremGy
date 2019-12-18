@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SiremGy.BLL.Interfaces.Exceptions
 {
-    public class InvalidEmailOrPasswordException : Exception
+    public class InvalidEmailOrPasswordException : BLLException
     {
         const string errorMessage = "Incorrect Email or Password";
         public InvalidEmailOrPasswordException() : base(errorMessage)
