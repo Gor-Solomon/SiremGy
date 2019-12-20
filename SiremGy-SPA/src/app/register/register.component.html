@@ -1,0 +1,54 @@
+<form #registerForm="ngForm" (ngSubmit)="register()">
+  <h2 class="text-center text-primary">Sign Up</h2>
+  <hr>
+
+  <div class="form-group">
+    <input type="text" class="form-control" required [(ngModel)]="model.UserName" name="UserName" placeholder="User Name">
+  </div>
+
+  <div class="form-group">
+    <input type="email" class="form-control" required [(ngModel)]="model.Email" name="Email"  placeholder="Email">
+  </div>
+
+  <div class="form-group">
+    <input type="password" class="form-control" required [(ngModel)]="model.Password" name="Password" placeholder="Password">
+  </div>
+
+  <div class="form-group">
+    <input type="text" class="form-control" required [(ngModel)]="model.Address" name="Address" placeholder="Address">
+  </div>
+
+ 
+
+  <div class="form-group">
+    <select aria-label="Country" class="form-control custom-select" id="favouriteValue" name="Country" required [(ngModel)]="model.Country"  >
+      <option value="Country" disabled selected>Country</option>
+      <option *ngFor="let value of valuesFromHome" [value]="value">{{value}}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <select aria-label="Gender" class="form-control custom-select" id="GenderValue" name="Gender" required [(ngModel)]="model.Gender">
+      <option value="Gender" disabled selected>Gender</option>
+      <option value="Male"  >Male</option>
+      <option value="Female"  >Female</option>
+      <option value="Other" >Other</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <input type="tel" class="form-control" required [(ngModel)]="model.MobileNumber" name="MobileNumber" placeholder="MobileNumber">
+  </div>
+
+  <div class="form-group" style="display: flex;">
+    <label style="margin: 5px; font-weight: bold; font-style: italic;">Birthday:</label>
+    <input type="date" class="form-control date" required [(ngModel)]="model.Birthday" name="Birthday" placeholder="Birthday">
+  </div>
+
+  <div class="form-group text-center">
+    <button class="btn btn-success" type="submit">Register</button>
+    <button class="btn btn-default" (click)="cancel()" type="button">Cancel</button>
+  </div>
+  
+  
+</form>

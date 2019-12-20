@@ -54,7 +54,7 @@ namespace SiremGy.API
             
             app.UseRouting();
 
-            app.UseCors(p => p.AllowAnyOrigin().AllowAnyMethod());
+            app.UseCors(p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
             app.UseAuthentication();
             app.UseAuthorization();

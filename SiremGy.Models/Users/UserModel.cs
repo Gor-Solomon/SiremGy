@@ -5,19 +5,17 @@ namespace SiremGy.Models.Users
 {
     public class UserModel : ModelBase
     {
-        [Required]
-        [StringLength(100, MinimumLength = 3, ErrorMessage = "User Name must have at least 3 and at most 100 characters.")]
-        public string UserName { get; set; }
-
-        [Required]
+        public Guid UniqueID { get; set; }
+        public virtual string UserName { get; set; }
         [EmailAddress]
-        public string Email { get; set; }
-
-        [Required]
-        [System.ComponentModel.PasswordPropertyText(true)]
-        [StringLength(100, MinimumLength = 8, ErrorMessage = "Passwrod must have at least 8 and at most 100 characters.")]
-        public string Password { get; set; }
-        public byte[] Image { get; set; }
-        public DateTime CreationDate { get; set; }
+        public virtual string Email { get; set; }
+        public virtual DateTime Birthday { get; set; }
+        [Phone]
+        public virtual string MobileNumber { get; set; }
+        public virtual string Gender { get; set; }
+        public virtual string Country { get; set; }
+        public virtual string Address { get; set; }
+        public virtual byte[] Image { get; set; }
+        public virtual DateTime CreationDate { get; set; }
     }
 }

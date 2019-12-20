@@ -32,13 +32,13 @@ namespace SiremGy.API.Controllers
         }
 
         [HttpPost(nameof(RegisterUser))]
-        public async Task<IActionResult> RegisterUser(UserModel userModel)
+        public async Task<IActionResult> RegisterUser(RegisterModel registerModel)
         {
             IActionResult actionResult;
 
             try
             {
-                var result = await _usersService.RegisterUser(userModel);
+                var result = await _usersService.RegisterUser(registerModel);
                 actionResult = CreatedAtRoute("", result);
             }
             catch (BLLException ex)
@@ -54,13 +54,13 @@ namespace SiremGy.API.Controllers
         }
 
         [HttpPost(nameof(Login))]
-        public async Task<IActionResult> Login(UserModel userModel)
+        public async Task<IActionResult> Login(LoginModel loginModel)
         {
             IActionResult actionResult;
 
             try
             {
-                var result = await _usersService.Login(userModel);
+                var result = await _usersService.Login(loginModel);
 
                 var key = _configuration.GetSection("AppSettings:Token").Value;
                 string generatedToken = _tokenService.GenerateAuthenticationToken(result.Value, key);

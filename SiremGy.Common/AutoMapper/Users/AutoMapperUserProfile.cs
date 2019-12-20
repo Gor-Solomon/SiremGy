@@ -14,8 +14,11 @@ namespace SiremGy.Common.AutoMapper.Users
             CreateMap<UserModel, UserEntity>().
                 ForMember(dest => dest.PasswordHash, opt => opt.Ignore()).
                 ForMember(dest => dest.PasswordSalt, opt => opt.Ignore());
-            CreateMap<UserEntity, UserModel>().
-                ForMember(dest => dest.Password, opt => opt.Ignore());
+            CreateMap<UserEntity, UserModel>();
+
+            CreateMap<RegisterModel, UserEntity>().
+                ForMember(dest => dest.PasswordHash, opt => opt.Ignore()).
+                ForMember(dest => dest.PasswordSalt, opt => opt.Ignore());
         }
     }
 }

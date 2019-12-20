@@ -27,23 +27,23 @@ namespace SiremGy.BLL.Useres
             _mapper = mapper;
         }
 
-        public async Task<BlResult<UserModel>> Login(UserModel UserModel)
+        public async Task<BlResult<UserModel>> Login(LoginModel loginModel)
         {
             var result = new BlResult<UserModel>();
 
-            if (UserModel is null)
+            if (loginModel is null)
             {
-                throw new ArgumentNullException(nameof(UserModel));
+                throw new ArgumentNullException(nameof(loginModel));
             }
 
-            var entity = await _authenticationRepository.FirstOrDefaultAsync(x => x.Email == UserModel.Email.ToLower(Thread.CurrentThread.CurrentCulture));
+            var entity = await _authenticationRepository.FirstOrDefaultAsync(x => x.Email == loginModel.Email.ToLower(Thread.CurrentThread.CurrentCulture));
 
             if (entity is null)
             {
                 throw new InvalidEmailOrPasswordException();
             }
 
-            verifyPasswordHash(UserModel.Password, entity.PasswordHash, entity.PasswordSalt, entity.CreationDate);
+            verifyPasswordHash(loginModel.Password, entity.PasswordHash, entity.PasswordSalt, entity.CreationDate);
             result.Success(_mapper.Map<UserModel>(entity));
 
             return result;
@@ -72,31 +72,33 @@ namespace SiremGy.BLL.Useres
             }
         }
 
-        public async Task<BlResult<UserModel>> RegisterUser(UserModel UserModel)
+        public async Task<BlResult<UserModel>> RegisterUser(RegisterModel registerModel)
         {
             byte[] passwordHash, PasswordSalt;
             var result = new BlResult<UserModel>();
 
-            if (UserModel is null)
+            if (registerModel is null)
             {
-                throw new ArgumentNullException(nameof(UserModel));
+                throw new ArgumentNullException(nameof(registerModel));
             }
 
-            var emailExists = await UserExists(UserModel);
+            var emailExists = await UserExists(registerModel.Email);
 
             if (emailExists.Value)
             {
-                string message = createExceptionMessage("Sorry, Email '{0}' is already in use.", UserModel.Email);
+                string message = createExceptionMessage("Sorry, Email '{0}' is already in use.", registerModel.Email);
                 throw new UniqueConstraintException(message);
             }
 
-            UserModel.CreationDate = DateTime.Now;
-            passwordHash = createPasswordHash(UserModel.CreationDate, UserModel.Password, out PasswordSalt);
+            DateTime creationDate = DateTime.Now;
+            passwordHash = createPasswordHash(creationDate, registerModel.Password, out PasswordSalt);
 
-            var entity = _mapper.Map<UserEntity>(UserModel);
+            var entity = _mapper.Map<UserEntity>(registerModel);
+            entity.UniqueID = Guid.NewGuid();
             entity.PasswordHash = passwordHash;
             entity.PasswordSalt = PasswordSalt;
             entity.Email = entity.Email.ToLower(Thread.CurrentThread.CurrentCulture);
+            entity.CreationDate = creationDate;
 
             await _authenticationRepository.AddAsync(entity);
             await _authenticationRepository.SaveChangesAsync();
@@ -131,16 +133,16 @@ namespace SiremGy.BLL.Useres
             return result;
         }
 
-        public async Task<BlResult<bool>> UserExists(UserModel UserModel)
+        public async Task<BlResult<bool>> UserExists(string email)
         {
             var result = new BlResult<bool>();
 
-            if (UserModel is null)
+            if (string.IsNullOrWhiteSpace(email))
             {
-                throw new ArgumentNullException(nameof(UserModel));
+                throw new ArgumentNullException(nameof(email));
             }
 
-            var exists = await _authenticationRepository.AnyAsync(x => x.Email == UserModel.Email.ToLower(Thread.CurrentThread.CurrentCulture));
+            var exists = await _authenticationRepository.AnyAsync(x => x.Email == email.ToLower(Thread.CurrentThread.CurrentCulture));
             result.Success(exists);
 
             return result;

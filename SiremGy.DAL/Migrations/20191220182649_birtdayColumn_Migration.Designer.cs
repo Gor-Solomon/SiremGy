@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SiremGy.DAL.EF;
 
 namespace SiremGy.DAL.Migrations
 {
     [DbContext(typeof(SiremGyDbContext))]
-    partial class SiremGyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191220182649_birtdayColumn_Migration")]
+    partial class birtdayColumn_Migration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
