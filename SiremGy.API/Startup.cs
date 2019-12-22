@@ -1,12 +1,15 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using SiremGy.BLL.Interfaces.Exceptions;
 using SiremGy.Common;
 using System.Text;
 
@@ -51,7 +54,11 @@ namespace SiremGy.API
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+            else
+            {
+                app.UseExceptionHandler(builder => generalErrorHandler(builder));
+            }
+
             app.UseRouting();
 
             app.UseCors(p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
@@ -62,6 +69,30 @@ namespace SiremGy.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            }); 
+        }
+
+        private static void generalErrorHandler(IApplicationBuilder builder)
+        {
+            builder.Run(async context =>
+            {
+                int statusCode;
+                string message;
+                var exceptionHandler = context.Features.Get<IExceptionHandlerFeature>();
+
+                if (exceptionHandler != null && exceptionHandler.Error != null && exceptionHandler.Error is BLLException)
+                {
+                    statusCode = 400;
+                    message = exceptionHandler.Error.Message;
+                }
+                else
+                {
+                    statusCode = 500;
+                    message = "An error occurred, please try again later...";
+                }
+
+                context.Response.StatusCode = statusCode;
+                await context.Response.WriteAsync(message);
             });
         }
     }

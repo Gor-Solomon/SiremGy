@@ -11,6 +11,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SiremGy.Models", "SiremGy.Models\SiremGy.Models.csproj", "{B4988940-FA98-4EFC-876B-1C0762C67F03}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SiremGy.DAL", "SiremGy.DAL\SiremGy.DAL.csproj", "{403685D4-5992-4569-9FE2-C924CB9F8613}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FEE17DDA-7F31-469E-A5DD-BBD564515D4D} = {FEE17DDA-7F31-469E-A5DD-BBD564515D4D}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SiremGy.BLL", "SiremGy.BLL\SiremGy.BLL.csproj", "{C970E188-A230-499B-8769-E9AF0ABE51BF}"
 EndProject

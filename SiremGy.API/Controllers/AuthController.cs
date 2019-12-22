@@ -34,21 +34,8 @@ namespace SiremGy.API.Controllers
         [HttpPost(nameof(RegisterUser))]
         public async Task<IActionResult> RegisterUser(RegisterModel registerModel)
         {
-            IActionResult actionResult;
-
-            try
-            {
-                var result = await _usersService.RegisterUser(registerModel);
-                actionResult = CreatedAtRoute("", result);
-            }
-            catch (BLLException ex)
-            {
-                actionResult = BadRequest(ex.Message);
-            }
-            catch (Exception)
-            {
-                actionResult = StatusCode(500);
-            }
+            var result = await _usersService.RegisterUser(registerModel);
+            IActionResult actionResult = CreatedAtRoute("", result);
 
             return actionResult;
         }
@@ -56,25 +43,12 @@ namespace SiremGy.API.Controllers
         [HttpPost(nameof(Login))]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
-            IActionResult actionResult;
+            var result = await _usersService.Login(loginModel);
 
-            try
-            {
-                var result = await _usersService.Login(loginModel);
+            var key = _configuration.GetSection("AppSettings:Token").Value;
+            string generatedToken = _tokenService.GenerateAuthenticationToken(result.Value, key);
 
-                var key = _configuration.GetSection("AppSettings:Token").Value;
-                string generatedToken = _tokenService.GenerateAuthenticationToken(result.Value, key);
-
-                actionResult = Ok(new { token = generatedToken });
-            }
-            catch (BLLException)
-            {
-                actionResult = Unauthorized();
-            }
-            catch (Exception)
-            {
-                actionResult = StatusCode(500);
-            }
+            IActionResult actionResult = Ok(new { token = generatedToken });
 
             return actionResult;
         }
