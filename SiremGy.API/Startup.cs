@@ -82,7 +82,7 @@ namespace SiremGy.API
 
                 if (exceptionHandler != null && exceptionHandler.Error != null && exceptionHandler.Error is BLLException)
                 {
-                    statusCode = 400;
+                    statusCode = exceptionHandler.Error is InvalidEmailOrPasswordException? 401 : 400;
                     message = exceptionHandler.Error.Message;
                 }
                 else
@@ -92,6 +92,11 @@ namespace SiremGy.API
                 }
 
                 context.Response.StatusCode = statusCode;
+
+                context.Response.Headers.Add("Application-Error", message);
+                context.Response.Headers.Add("Access-Control-Expose-Headers", "Application-Error");
+                context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+                
                 await context.Response.WriteAsync(message);
             });
         }

@@ -86,7 +86,7 @@ namespace SiremGy.BLL.Useres
 
             if (emailExists.Value)
             {
-                string message = createExceptionMessage("Sorry, Email '{0}' is already in use.", registerModel.Email);
+                string message =  string.Format("Sorry, Email '{0}' is already in use.", registerModel.Email);
                 throw new UniqueConstraintException(message);
             }
 

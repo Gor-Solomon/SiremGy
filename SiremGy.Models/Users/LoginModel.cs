@@ -13,7 +13,6 @@ namespace SiremGy.Models.Users
 
         [Required]
         [System.ComponentModel.PasswordPropertyText(true)]
-        [StringLength(100, MinimumLength = 8, ErrorMessage = "Passwrod must have at least 8 and at most 100 characters.")]
         public string Password { get; set; }
     }
 }

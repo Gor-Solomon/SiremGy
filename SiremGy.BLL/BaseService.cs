@@ -17,7 +17,7 @@ namespace SiremGy.BLL
 
         }
 
-        protected string createExceptionMessage (params string[] args)
+        protected string CreateExceptionMessage (params string[] args)
         {
             var builder = new StringBuilder();
             foreach (var arg in args)
