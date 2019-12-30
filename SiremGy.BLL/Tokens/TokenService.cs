@@ -16,8 +16,14 @@ namespace SiremGy.BLL.Tokens
         {
             Claim[] claims = new[]
            {
-                    new Claim(ClaimTypes.NameIdentifier, userModel.Id.ToString()),
-                    new Claim(ClaimTypes.Name, userModel.Email)
+                    new Claim(ClaimTypes.NameIdentifier, userModel.UniqueID.ToString()),
+                    new Claim(ClaimTypes.Name, userModel.Email),
+                    new Claim(ClaimTypes.GivenName, userModel.UserName),
+                    new Claim(ClaimTypes.Gender, userModel.Gender),
+                    new Claim(ClaimTypes.MobilePhone, userModel.MobileNumber),
+                    new Claim(ClaimTypes.Country, userModel.Country),
+                    new Claim(ClaimTypes.StreetAddress, userModel.Address),
+                    new Claim(ClaimTypes.DateOfBirth, userModel.Birthday.ToString()),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(symetricKey));

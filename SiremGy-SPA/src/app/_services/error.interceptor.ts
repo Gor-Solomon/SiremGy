@@ -14,7 +14,7 @@ export class ErrorInterceptor implements HttpInterceptor {
       catchError(error => {
         debugger;
         if (error.status == 401) {
-          
+
           return throwError(error.error);
         }
         if (error instanceof HttpErrorResponse) {
@@ -23,20 +23,20 @@ export class ErrorInterceptor implements HttpInterceptor {
             return throwError(applicationError);
           }
         }
-        
+
         const serverError = error.error;
         let modelStateErrors = '';
         if (serverError.errors && Object.keys(serverError.errors).length > 0) {
           for (const key in serverError.errors) {
             if (serverError.errors[key]) {
-              modelStateErrors += serverError.errors[key] + '\n';
+              modelStateErrors += '\n' + serverError.errors[key];
             }
           }
         }
 
         return throwError(modelStateErrors || serverError || 'Server Error');
       })
-    )
+    );
   }
 
 }
@@ -45,4 +45,4 @@ export const ErroInterceptorProviders = {
   provide: HTTP_INTERCEPTORS,
   useClass: ErrorInterceptor,
   multi: true
-}
+};
