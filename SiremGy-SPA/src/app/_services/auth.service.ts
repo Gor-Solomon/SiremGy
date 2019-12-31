@@ -11,6 +11,7 @@ export class AuthService {
   private baseUrl = 'http://localhost:5000/api/auth/';
   private jwtHelper = new JwtHelperService();
   private userInfo = null;
+
   constructor(private http: HttpClient) { }
 
   login(model: any) {
@@ -42,6 +43,11 @@ export class AuthService {
   loggedIn() {
     const token = localStorage.getItem('token');
     return !this.jwtHelper.isTokenExpired(token);
+  }
+
+  logout() {
+    this.userInfo = null;
+    localStorage.removeItem('token');
   }
 
   refreshTokenInfo() {
