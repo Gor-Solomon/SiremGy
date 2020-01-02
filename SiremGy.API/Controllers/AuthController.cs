@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using SiremGy.BLL.Interfaces.Common;
-using SiremGy.BLL.Interfaces.Exceptions;
-using SiremGy.BLL.Interfaces.Token;
-using SiremGy.Models.Users;
+using SiremGy.BLL.Interfaces.Tokens;
+using SiremGy.BLL.Interfaces.Users;
+using SiremGy.BLL.Models.Users;
 
 namespace SiremGy.API.Controllers
 {

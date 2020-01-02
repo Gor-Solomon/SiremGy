@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SiremGy.Models\SiremGy.Models.csproj" />
+    <ProjectReference Include="..\SiremGy.Models\SiremGy.BLL.Models.csproj" />
   </ItemGroup>
 
 </Project>

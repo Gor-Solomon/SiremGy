@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace SiremGy.Models.Users
+namespace SiremGy.BLL.Models.Users
 {
     public class LoginModel : ModelBase
     {

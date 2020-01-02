@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SiremGy.DAL.EF;
 
 namespace SiremGy.DAL.Migrations
 {
     [DbContext(typeof(SiremGyDbContext))]
-    partial class SiremGyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200102131713_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -129,8 +131,6 @@ namespace SiremGy.DAL.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Email").IsUnique();
 
                     b.ToTable("Users");
                 });

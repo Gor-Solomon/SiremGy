@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SiremGy.BLL.Interfaces.Exceptions
+namespace SiremGy.Exceptions.BLLExceptions
 {
     public class UniqueConstraintException : BLLException
     {

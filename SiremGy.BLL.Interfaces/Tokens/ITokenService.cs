@@ -1,10 +1,6 @@
-﻿using SiremGy.Models.Users;
-using System;
-using System.Collections.Generic;
-using System.Security;
-using System.Text;
+﻿using SiremGy.BLL.Models.Users;
 
-namespace SiremGy.BLL.Interfaces.Token
+namespace SiremGy.BLL.Interfaces.Tokens
 {
     public interface ITokenService : IBaseService
     {

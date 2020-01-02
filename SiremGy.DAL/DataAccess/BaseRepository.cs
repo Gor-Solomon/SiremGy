@@ -21,12 +21,12 @@ namespace SiremGy.DAL.DataAccess
         {
             _dbContext = dbContext;
         }
-        public virtual async Task<TEntity> AddAsync(TEntity entity)
+        public virtual TEntity Add(TEntity entity)
         {
             if (entity == null)
                 throw new ArgumentException(nameof(entity));
 
-            var result = await _dbContext.Set<TEntity>().AddAsync(entity);
+            var result = _dbContext.Set<TEntity>().Add(entity);
 
             return result.Entity;
         }
@@ -54,7 +54,7 @@ namespace SiremGy.DAL.DataAccess
             _dbContext.Entry(entity).State = EntityState.Modified;
         }
 
-        protected virtual void DeleteAsync(TEntity entity)
+        protected virtual void Delete(TEntity entity)
         {
             _dbContext.Set<TEntity>().Remove(entity);
         }
@@ -63,7 +63,7 @@ namespace SiremGy.DAL.DataAccess
         {
             var entity = await _dbContext.Set<TEntity>().FindAsync(id);
             if (entity != null)
-                DeleteAsync(entity);
+                Delete(entity);
         }
 
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
@@ -147,9 +147,9 @@ namespace SiremGy.DAL.DataAccess
             }
         }
 
-        public async Task SaveChangesAsync()
+        public async Task<bool> SaveChangesAsync(bool acceptAllChanges = true)
         {
-           await _dbContext.SaveChangesAsync();
+            return await _dbContext.SaveChangesAsync(acceptAllChanges) > 0;
         }
 
         ~BaseRepository()

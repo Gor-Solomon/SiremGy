@@ -9,7 +9,7 @@ namespace SiremGy.DAL.Interfaces
     public interface IBaseRepository<TEntity> : IDisposable, IAsyncDisposable
            where TEntity : class, IEntity
     {
-        Task<TEntity> AddAsync(TEntity entity);
+        TEntity Add(TEntity entity);
         void AddRange(IEnumerable<TEntity> entities);
         void RemoveRange(IEnumerable<TEntity> entities);
         void RemoveAll();
@@ -25,6 +25,6 @@ namespace SiremGy.DAL.Interfaces
         Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate);
         Task<bool> AllAsync(Expression<Func<TEntity, bool>> predicate);
         Task<TEntity> GetByIdAsync(int id);
-        Task SaveChangesAsync();
+        Task<bool> SaveChangesAsync(bool acceptAllChanges = true);
     }
 }

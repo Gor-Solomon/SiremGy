@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace SiremGy.BLL.Interfaces.Exceptions
+namespace SiremGy.Exceptions.BLLExceptions
 {
     public class InvalidEmailOrPasswordException : BLLException
     {

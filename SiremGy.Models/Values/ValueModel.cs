@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SiremGy.Models.Values
+namespace SiremGy.BLL.Models.Values
 {
     public class ValueModel : ModelBase
     {

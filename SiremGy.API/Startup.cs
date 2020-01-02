@@ -3,14 +3,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using SiremGy.BLL.Interfaces.Exceptions;
 using SiremGy.Common;
+using SiremGy.Exceptions.BLLExceptions;
 using System.Text;
 
 namespace SiremGy.API
@@ -34,17 +33,9 @@ namespace SiremGy.API
             DependenciesResolver.ConfigureAutoMapping(services);
             DependenciesResolver.RegisterRepositories(services);
             DependenciesResolver.RegisterServices(services);
+            DependenciesResolver.AddAuthentication(services);
             services.AddCors();
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(opt => opt.TokenValidationParameters = new TokenValidationParameters()
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey( Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                }) ;
-
-            services.AddMvc().AddNewtonsoftJson(options => { options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; });
+            services.AddMvc().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,7 +60,7 @@ namespace SiremGy.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-            }); 
+            });
         }
 
         private static void generalErrorHandler(IApplicationBuilder builder)
@@ -82,7 +73,7 @@ namespace SiremGy.API
 
                 if (exceptionHandler != null && exceptionHandler.Error != null && exceptionHandler.Error is BLLException)
                 {
-                    statusCode = exceptionHandler.Error is InvalidEmailOrPasswordException? 401 : 400;
+                    statusCode = exceptionHandler.Error is InvalidEmailOrPasswordException ? 401 : 400;
                     message = exceptionHandler.Error.Message;
                 }
                 else
@@ -96,7 +87,7 @@ namespace SiremGy.API
                 context.Response.Headers.Add("Application-Error", message);
                 context.Response.Headers.Add("Access-Control-Expose-Headers", "Application-Error");
                 context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
-                
+
                 await context.Response.WriteAsync(message);
             });
         }

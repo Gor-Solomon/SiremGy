@@ -19,7 +19,8 @@
     <ProjectReference Include="..\SiremGy.BLL.Interfaces\SiremGy.BLL.Interfaces.csproj" />
     <ProjectReference Include="..\SiremGy.DAL.Entities\SiremGy.DAL.Entities.csproj" />
     <ProjectReference Include="..\SiremGy.DAL.Interfaces\SiremGy.DAL.Interfaces.csproj" />
-    <ProjectReference Include="..\SiremGy.Models\SiremGy.Models.csproj" />
+    <ProjectReference Include="..\SiremGy.Exceptions\SiremGy.Exceptions.csproj" />
+    <ProjectReference Include="..\SiremGy.Models\SiremGy.BLL.Models.csproj" />
   </ItemGroup>
 
 </Project>

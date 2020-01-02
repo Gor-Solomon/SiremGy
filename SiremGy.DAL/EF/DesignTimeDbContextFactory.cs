@@ -15,8 +15,6 @@ namespace SiremGy.DAL.EF
             IConfigurationRoot configuration = new ConfigurationBuilder()
                                             .SetBasePath(Directory.GetCurrentDirectory())
                                             .AddJsonFile(@Directory.GetCurrentDirectory() + "/../SiremGy.API/appsettings.json").Build();
-            //var connectionString = configuration.GetConnectionString("DatabaseConnection");
-            //connectionString.Insert(connectionString.IndexOf("")
             var builder = new DbContextOptionsBuilder<SiremGyDbContext>();
             builder.UseSqlite(configuration.GetConnectionString("DatabaseConnection"));
             return new SiremGyDbContext(builder.Options);

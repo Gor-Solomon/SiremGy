@@ -1,10 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+using SiremGy.DAL.DataAccess.Users;
+using SiremGy.DAL.Entities.Photos;
 using SiremGy.DAL.Entities.Users;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace SiremGy.DAL.EF
@@ -13,15 +17,16 @@ namespace SiremGy.DAL.EF
     {
         public SiremGyDbContext(DbContextOptions<SiremGyDbContext> dbContextOptions) : base(dbContextOptions)
         {
-           // DataSeeder.Initialize(this);
         }
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    base.OnModelCreating(modelBuilder);
-        //    modelBuilder.Entity<UserEntity>().HasIndex(i => i.Email).IsUnique();
-        //}
+        public void Initialize()
+        {
+            DataSeeder dataSeeder = new DataSeeder();
+            dataSeeder.Initialize(this);
+        }
 
         public DbSet<UserEntity> Users { get; set; }
+        public DbSet<UserDetailEntity> UserDetails { get; set; }
+        public DbSet<PhotoEntity> Photos { get; set; }
     }
 }

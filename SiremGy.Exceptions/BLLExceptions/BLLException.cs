@@ -4,7 +4,7 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace SiremGy.BLL.Interfaces.Exceptions
+namespace SiremGy.Exceptions.BLLExceptions
 {
     public class BLLException : Exception
     {

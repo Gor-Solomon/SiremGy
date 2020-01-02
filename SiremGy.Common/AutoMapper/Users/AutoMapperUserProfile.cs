@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
+using SiremGy.BLL.Models.Users;
 using SiremGy.DAL.Entities.Users;
-using SiremGy.Models.Users;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using SiremGy.Common.Extensions;
 
 namespace SiremGy.Common.AutoMapper.Users
 {
@@ -11,6 +9,11 @@ namespace SiremGy.Common.AutoMapper.Users
     {
         public AutoMapperUserProfile()
         {
+            CreateMap<UserDetailModel, UserDetailEntity>().
+                ForMember(dest => dest.UserId, opt => opt.Ignore());
+            CreateMap<UserDetailEntity, UserDetailModel>()
+                .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.Birthday.CalculateAge()));
+
             CreateMap<UserModel, UserEntity>().
                 ForMember(dest => dest.PasswordHash, opt => opt.Ignore()).
                 ForMember(dest => dest.PasswordSalt, opt => opt.Ignore());

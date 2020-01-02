@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SiremGy.Models
+namespace SiremGy.BLL.Models
 {
     public abstract class ModelBase
     {
