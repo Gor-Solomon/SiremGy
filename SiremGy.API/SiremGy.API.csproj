@@ -32,6 +32,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SiremGy.BLL.Interfaces\SiremGy.BLL.Interfaces.csproj" />
     <ProjectReference Include="..\SiremGy.Common\SiremGy.Common.csproj" />
+    <ProjectReference Include="..\SiremGy.DTO\SiremGy.DTO.csproj" />
   </ItemGroup>
 
 </Project>

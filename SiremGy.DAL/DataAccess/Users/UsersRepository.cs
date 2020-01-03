@@ -71,7 +71,10 @@ namespace SiremGy.DAL.DataAccess.Users
 
         public async override Task<IEnumerable<UserEntity>> GetAllAsync()
         {
-            return await _dbContext.Users.ToListAsync();
+            return await _dbContext.Users
+                         .Include(i => i.UserDetail).ThenInclude(i => i.Photos)
+                         .Include(i => i.UserDetail).ThenInclude(i => i.Photo)
+                         .ToListAsync();
         }
     }
 }

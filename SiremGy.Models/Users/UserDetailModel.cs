@@ -13,7 +13,7 @@ namespace SiremGy.BLL.Models.Users
         public string Address { get; set; }
         public string Introduction { get; set; }
         public string LookingFor { get; set; }
-        public string Intrests { get; set; }
+        public string Interests { get; set; }
         public UserModel User { get; set; }
         public PhotoModel Photo { get; set; }
         public IEnumerable<PhotoModel> Photos { get; set; }

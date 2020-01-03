@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SiremGy.BLL.Interfaces.Users;
 using SiremGy.BLL.Models.Users;
+using SiremGy.DTO.Users;
 
 namespace SiremGy.API.Controllers
 {
@@ -26,14 +27,18 @@ namespace SiremGy.API.Controllers
         public async Task<IActionResult> GetUsers()
         {
             var result = await _usersService.GetUsers();
-            return Ok(result.Value);
+            var users = UserDTO.CastFromUserModelAgregate(result.Value);
+
+            return Ok(users);
         }
 
         [HttpGet("{id}", Name = nameof(GetUsers))]
         public async Task<IActionResult> GetUsers(int id)
         {
             var result = await _usersService.GetUser(id);
-            return Ok(result.Value);
+            var users = new UserDTO(result.Value);
+
+            return Ok(users);
         }
 
         // POST: api/Users

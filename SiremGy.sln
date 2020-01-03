@@ -27,7 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SiremGy.DAL.Entities", "Sir
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SiremGy.ConsolePanel", "SiremGy.Console\SiremGy.ConsolePanel.csproj", "{DFCB3125-C922-49A4-A3B9-8602A8D68A34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiremGy.Exceptions", "SiremGy.Exceptions\SiremGy.Exceptions.csproj", "{93D2A3F3-66CA-47AA-AF8F-34EAD2D27F02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SiremGy.Exceptions", "SiremGy.Exceptions\SiremGy.Exceptions.csproj", "{93D2A3F3-66CA-47AA-AF8F-34EAD2D27F02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiremGy.DTO", "SiremGy.DTO\SiremGy.DTO.csproj", "{4FB6028C-E32D-4B0D-8300-9924956D1DCD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{93D2A3F3-66CA-47AA-AF8F-34EAD2D27F02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93D2A3F3-66CA-47AA-AF8F-34EAD2D27F02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93D2A3F3-66CA-47AA-AF8F-34EAD2D27F02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FB6028C-E32D-4B0D-8300-9924956D1DCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FB6028C-E32D-4B0D-8300-9924956D1DCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FB6028C-E32D-4B0D-8300-9924956D1DCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FB6028C-E32D-4B0D-8300-9924956D1DCD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
