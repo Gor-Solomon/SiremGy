@@ -14,7 +14,8 @@ namespace SiremGy.DAL.Entities.Users
         public Guid UniqueID { get; set; }
         [Required]
         public string UserName { get; set; }
-        [Required] // Unique Index
+        [Required]
+        [Index("UQ_UserEmail", IsClustered = false, IsUnique = true)]
         public string Email { get; set; }
         [Required]
         public string MobileNumber { get; set; }

@@ -42,7 +42,7 @@ namespace SiremGy.DAL.Migrations
                     Address = table.Column<string>(nullable: true),
                     Introduction = table.Column<string>(nullable: true),
                     LookingFor = table.Column<string>(nullable: true),
-                    Intrests = table.Column<string>(nullable: true),
+                    Interests = table.Column<string>(nullable: true),
                     PhotoId = table.Column<int>(nullable: true),
                     Birthday = table.Column<DateTime>(nullable: false)
                 },

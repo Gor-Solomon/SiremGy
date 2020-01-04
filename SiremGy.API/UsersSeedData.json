@@ -380,3 +380,44 @@
     }
   }
 ]
+
+//https://www.json-generator.com/
+//[
+//  "{{repeat(5)}}",
+//  {
+//    "Id": 0,
+//    "UniqueID": "41940653-9b65-43d5-a281-b2c3b79a6209",
+//    "UserName": "{{firstName(\"female\")}}",
+//    "Email": "{{email()}}",
+//    "MobileNumber": "+1 {{phone()}}",
+//    "PasswordHash": [ 1, 2, 3 ],
+//    "PasswordSalt": [ 1, 2, 3 ],
+//    "CreationDate": "{{date(new Date(2017,0,1), new Date(2017, 7, 31), \"YYYY-MM-dd\")}}",
+//    "LastActive": "{{date(new Date(2017,0,1), new Date(2017, 7, 31), \"YYYY-MM-dd\")}}",
+//    "UserDetail": {
+//      "Id": 0,
+//      "Nickname": "{{firstName(\"female\")}}",
+//      "Gender": "female",
+//      "Birthday": "{{date(new Date(1980,0,1), new Date(2000, 7, 31), \"YYYY-MM-dd\")}}",
+//      "Address": "{{integer(100, 999)}} {{street()}}, {{city()}}, {{state()}}, {{integer(100, 10000)}}",
+//      "Introduction": "{{lorem(1, \"paragraphs\")}}",
+//      "LookingFor": "{{lorem(1, \"paragraphs\")}}",
+//      "Interests": "{{lorem(1, \"sentences\")}}",
+//      "City": "{{city()}}",
+//      "Country": "{{country()}}",
+//      "Photo": {
+//        "Url": "function(num)",
+//        {
+//          "return" "https://randomuser.me/api/portraits/women/",
+//          "+" "num.integer(1",
+//          "99)" "+",
+//          "'.jpg';"
+//        },
+//        "Id": 0,
+//        "Visible": true,
+//        "Description": "{{lorem()}}",
+//        "DateAdded": "{{date(new Date(2017,0,1), new Date(2017, 7, 31), \"YYYY-MM-dd\")}}"
+//      }
+//    }
+//  }
+//]

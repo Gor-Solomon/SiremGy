@@ -65,7 +65,7 @@ namespace SiremGy.DAL.Migrations
                     b.Property<string>("Gender")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Intrests")
+                    b.Property<string>("Interests")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Introduction")
@@ -128,9 +128,9 @@ namespace SiremGy.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
-
                     b.HasIndex("Email").IsUnique();
+
+                    b.HasKey("Id");
 
                     b.ToTable("Users");
                 });

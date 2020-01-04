@@ -20,6 +20,7 @@ namespace SiremGy.DTO.Users
             Age = userModel.UserDetail.Age;
             Gender = userModel.UserDetail.Gender;
             LastActive = userModel.LastActive;
+            Created = userModel.CreationDate;
             PhotoUrl = userModel.UserDetail.Photo.Url;
             City = userModel.UserDetail.City;
             Country = userModel.UserDetail.Country;

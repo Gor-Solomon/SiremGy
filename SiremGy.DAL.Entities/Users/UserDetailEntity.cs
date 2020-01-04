@@ -18,7 +18,7 @@ namespace SiremGy.DAL.Entities.Users
         public string Address { get; set; }
         public string Introduction { get; set; }
         public string LookingFor { get; set; }
-        public string Intrests { get; set; }
+        public string Interests { get; set; }
 
         [InverseProperty("UserDetail")]
         public virtual UserEntity User { get; set; }
