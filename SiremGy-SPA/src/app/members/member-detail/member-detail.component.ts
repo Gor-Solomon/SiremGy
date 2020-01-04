@@ -38,12 +38,13 @@ export class MemberDetailComponent implements OnInit {
 
   getImages() {
     const imageUrls = [];
-    for(const photo of this.user.photos) {
+
+    for (const photo of this.user.photos) {
       imageUrls.push({
-        small: photo.Url,
-        medium: photo.Url,
-        big: photo.Url,
-        description: photo.Description
+        small: photo.url,
+        medium: photo.url,
+        big: photo.url,
+        description: photo.description
       });
 
       return imageUrls;

@@ -1,6 +1,6 @@
 export interface PhotoModel {
-    Url: string;
-    Description: string;
-    Visible: boolean;
-    DateAdded: Date;
+    url: string;
+    description: string;
+    visible: boolean;
+    dateAdded: Date;
 }

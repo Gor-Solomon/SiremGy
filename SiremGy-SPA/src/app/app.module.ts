@@ -5,7 +5,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BrowserModule, HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig} from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -33,10 +33,10 @@ export function tokenGetterLocal() {
    return localStorage.getItem('token');
 }
 
-export class CustomHammerConfig extends HammerGestureConfig {
+export class CustomHammerConfig extends HammerGestureConfig  {
    overrides = {
-      pinch: { enable: false },
-      rotate: { enable: false }
+       pinch: { enable: false },
+       rotate: { enable: false }
    };
 }
 
